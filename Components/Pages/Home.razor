@@ -1,0 +1,38 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Home</PageTitle>
+
+<div class="flex justify-center items-center h-screen md:-mt-24 overflow-hidden">
+    <form class="flex flex-col gap-4 w-1/2 border border-black rounded-md p-4">
+        <div class="flex flex-col gap-2">
+            <label class="font-semibold text-sm">Username</label>
+            <input @oninput="UpdateUsername" class="font-medium text-xs flex px-2 py-1 border border-black rounded-md" type="text" placeholder="Masukkan Username" />
+        </div>
+        <div class="flex flex-col gap-2">
+            <label class="font-semibold text-sm">Password</label>
+            <input class="font-medium text-xs flex px-2 py-1 border border-black rounded-md" type="password" placeholder="Masukkan Username" />
+        </div>
+
+        <button @onclick="AlertUsername" type="button" class="font-semibold text-sm border border-black px-2 py-1 rounded-md bg-blue-600">Login</button>
+
+    </form>
+</div>
+
+
+@code {
+    public string Username { get; set; } = "";
+    private void UpdateUsername(ChangeEventArgs e)
+    {
+        Username = e.Value.ToString();
+    }
+
+    public async void AlertUsername()
+    {
+        string Text = $"Username anda adalah {Username}";
+        await JSRuntime.InvokeAsync<string>(
+            "exampleJsFunctions.alertUsername", Text
+            );
+    }
+}
